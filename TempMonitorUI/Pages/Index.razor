@@ -1,0 +1,46 @@
+﻿@page "/"
+
+@using TempMonitorUI.Data
+@inject TempMonitorService TempMonitorService
+
+<h1>Temperature Monitor</h1>
+
+<p>Logged temperature readings.</p>
+
+@if (atmosphericConditions == null)
+{
+	<p><em>Loading...</em></p>
+}
+else
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Temp. (C)</th>
+				<th>Humidity (%)</th>
+				<th>Pressure (hPa)</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var forecast in atmosphericConditions)
+			{
+				<tr>
+					<td>@forecast.TimeStamp.ToShortDateString() @forecast.TimeStamp.ToShortTimeString()</td>
+					<td>@forecast.Temperature</td>
+					<td>@forecast.Humidity</td>
+					<td>@forecast.Pressure</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	private TempMonitorUI.Models.AtmosphericCondition[] atmosphericConditions;
+
+	protected override async Task OnInitializedAsync()
+	{
+		atmosphericConditions = await TempMonitorService.GetForDate(DateTime.Now);
+	}
+}
