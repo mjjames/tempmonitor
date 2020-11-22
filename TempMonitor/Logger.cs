@@ -2,13 +2,13 @@
 
 namespace TempMonitor
 {
-	internal class Logger
-	{
-		public void LogMessage(Func<string> message)
-		{
+    internal class Logger
+    {
+        public void LogMessage(Func<string> message)
+        {
 #if DEBUG
-			Console.WriteLine(message());
+            Console.WriteLine(message());
 #endif
-		}
-	}
+        }
+    }
 }
